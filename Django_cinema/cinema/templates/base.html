@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "base.css" %}">
+    <title>{% block title %}Cinema{% endblock title %}</title>
+    {% block css_styles %}{% endblock css_styles %}
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <a class="site-brand" href="{% url "homepage" %}">Cinema</a>
+
+            {% if not user.is_authenticated %}
+            <nav class="site-nav">
+                <a class="site-nav__link site-nav__link--secondary" href="{% url "registration_url" %}">Register</a>
+                <a class="site-nav__link" href="{% url "login_url" %}">Login</a>
+            </nav>
+            {% else %}
+                <nav class="site-nav">
+                    <a class="site-nav__link site-nav__link--secondary" href="{% url "reservation" %}">My reservations</a>
+                    <form class="site-nav__form" method="POST" action="{% url "logout_url" %}">
+                        {% csrf_token %}
+                        <button class="site-nav__link site-nav__button" type="submit">Logout</button>
+                    </form>
+                </nav>
+            {% endif %}
+
+        </header>
+
+        <main class="page-content">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages  %}
+                        <div class="message message--{{ message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock content %}
+        </main>
+    </div>
+</body>
+</html>

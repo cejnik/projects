@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Movies | Cinema{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "movies/index.css" %}">
+{% endblock css_styles %}
+{% block content %}
+    <section class="movie-library">
+        <div class="movie-library__intro">
+            <p class="movie-library__eyebrow">Now Showing</p>
+            <h1 class="movie-library__title">Movie highlights and current releases</h1>
+            <p class="movie-library__text">Choose a movie from the overview. On the detail page you will find the basic information, running time, and release year.</p>
+        </div>
+
+        <ul class="movie-grid">
+            {% for one_movie in movies %}
+                <li class="movie-card">
+                    <a class="movie-card__link" href="{% url "movie_detail" one_movie.slug %}">
+                        <div class="movie-card__poster-wrap">
+                            {% if one_movie.poster %}
+                                <img class="movie-card__poster" src="{{ one_movie.poster.url }}" alt="{{ one_movie.title }}">
+                            {% else %}
+                                <div class="movie-card__fallback">Poster not available</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="movie-card__body">
+                            <h2 class="movie-card__title">{{ one_movie.title }}</h2>
+                            <span class="movie-card__cta">View details</span>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock content %}

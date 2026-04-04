@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}User login{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "movies/account.css" %}">
+{% endblock css_styles %}
+{% block content %}
+    <section class="account-page">
+        <div class="account-panel account-panel--compact">
+            <p class="account-panel__eyebrow">Account</p>
+            <h1 class="account-panel__title">Login</h1>
+            <form class="account-form" action='' method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <button class="account-form__button">Login</button>
+            </form>
+        </div>
+    </section>
+{% endblock content %}

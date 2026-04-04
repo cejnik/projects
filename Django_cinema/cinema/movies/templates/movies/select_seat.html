@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Select seat{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "movies/select_seat.css" %}">
+{% endblock css_styles %}
+{% block content %}
+    <section class="seat-selection">
+        <div class="seat-selection__panel">
+            <p class="seat-selection__eyebrow">Seat selection</p>
+            <h1 class="seat-selection__title">Choose your seats</h1>
+
+            <div class="seat-selection__meta">
+                <span class="seat-selection__pill">Movie: {{ screening.film }}</span>
+                <span class="seat-selection__pill">Time: {{ screening.screening_time|date:"Y-m-d H:i" }}</span>
+                <span class="seat-selection__pill">Hall: {{ screening.hall.name }}</span>
+                <span class="seat-selection__pill">Tickets selected: {{ reservation.tickets_count }}</span>
+            </div>
+
+            <div class="seat-selection__legend">
+                <span class="seat-selection__legend-item seat-selection__legend-item--available">Available</span>
+                <span class="seat-selection__legend-item seat-selection__legend-item--occupied">Occupied</span>
+            </div>
+            <form action="" method="post" class="seat-selection__form">
+                {% csrf_token %}
+                <div class="seat-selection__screen-wrap">
+                    <div class="seat-selection__screen">Screen</div>
+                </div>
+                <div class="seat-selection__grid">
+                    {% for one_seat in hall_seats %}
+                        {% if one_seat in occupied_seats %}
+                            <div class="seat-selection__seat seat-selection__seat--occupied">
+                                {{ one_seat.row }}{{ one_seat.number }}
+                            </div>
+                        {% else %}
+                            <label for="seat-{{ one_seat.id }}" class="seat-selection__label">
+                                <input class="seat-selection__checkbox" type="checkbox" name="one_seat" id="seat-{{ one_seat.id }}" value="{{ one_seat.id }}">
+                                <div class="seat-selection__seat seat-selection__seat--available">
+                                    {{ one_seat.row }}{{ one_seat.number }}
+                                </div>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <button class="seat-selection__button" type="submit">Continue</button>
+            </form>
+        </div>
+    </section>
+{% endblock content %}

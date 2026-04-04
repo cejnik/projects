@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ movie.title }} | Cinema{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "movies/movie_detail.css" %}">
+{% endblock css_styles %}
+{% block content %}
+    <section class="movie-detail">
+        <div class="movie-detail__poster-panel">
+            {% if movie.poster %}
+                <img class="movie-detail__poster" src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+            {% endif %}
+            {% if not movie.poster %}
+                <div class="movie-detail__poster-fallback">Poster not available</div>
+            {% endif %}
+        </div>
+
+        <div class="movie-detail__content">
+            <p class="movie-detail__eyebrow">Movie details</p>
+            <h1 class="movie-detail__title">{{ movie.title }}</h1>
+
+            <div class="movie-detail__meta">
+                {% if movie.release_year %}
+                    <span class="movie-detail__pill">Release year: {{ movie.release_year }}</span>
+                {% endif %}
+                <span class="movie-detail__pill">Runtime: {{ movie.duration }} min</span>
+            </div>
+
+            <p class="movie-detail__description">{{ movie.description }}</p>
+            <a class="movie-detail__back-link" href="{% url "homepage" %}">Back to movie list</a>
+        </div>
+
+        <div class="movie-detail__screenings">
+            <p class="movie-detail__eyebrow">Available screenings</p>
+            <h2 class="movie-detail__screenings-title">Choose a time</h2>
+
+            {% if screenings %}
+                <div class="movie-detail__screening-list">
+                    {% for screening in screenings %}
+                        <div class="movie-detail__screening-item">
+                            <div class="movie-detail__screening-copy">
+                                <span class="movie-detail__screening-time">{{ screening.screening_time|date:"Y-m-d H:i" }}</span>
+                                <span class="movie-detail__screening-hall">Hall: {{ screening.hall.name }}</span>
+                            </div>
+                            <form action="{% url 'create_reservation_url' screening.id %}" method="post" class="movie-detail__reserve-form">
+                                {% csrf_token %}
+                                <input class="movie-detail__tickets-input" type="number" name="tickets_count" min="1" value="1">
+                                <button class="movie-detail__reserve-button" type="submit">Reserve</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="movie-detail__screenings-empty">No screenings are currently available for this movie.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}

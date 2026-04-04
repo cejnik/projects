@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Registration{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "movies/account.css" %}">
+{% endblock css_styles %}
+{% block content %}
+    <section class="account-page">
+        <div class="account-panel account-panel--compact">
+            <p class="account-panel__eyebrow">Account</p>
+            <h1 class="account-panel__title">Create account</h1>
+            <form class="account-form" action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="account-form__button">Register</button>
+            </form>
+        </div>
+    </section>
+{% endblock content %}
