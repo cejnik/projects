@@ -1,0 +1,35 @@
+.project-form p {
+    margin: 0 0 1rem;
+}
+
+.project-form label {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: var(--space-muted);
+    font-size: 0.95rem;
+}
+
+.project-form input,
+.project-form textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--space-text);
+    font: inherit;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-form textarea {
+    min-height: 8rem;
+    resize: vertical;
+}
+
+.project-form input:focus,
+.project-form textarea:focus {
+    outline: none;
+    border-color: var(--space-accent);
+    box-shadow: 0 0 0 0.25rem rgba(116, 192, 252, 0.14);
+    transform: translateY(-1px);
+}

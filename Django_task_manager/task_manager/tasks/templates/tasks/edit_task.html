@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit your task{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/task_creation.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="dashboard-shell">
+    <section class="form-panel">
+        <p class="dashboard-eyebrow">Edit task</p>
+        <h1 class="dashboard-title">Update your task</h1>
+        <p class="dashboard-subtitle">Edit the task details</p>
+
+        <form action="" method="POST" class="task-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="task-form-actions">
+                <a href="{% url "project_detail_url" task.project.pk %}" class="dashboard-ghost-link">Cancel without changes</a>
+                <button type="submit" class="dashboard-link-button dashboard-link-button-solid">Save changes</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}

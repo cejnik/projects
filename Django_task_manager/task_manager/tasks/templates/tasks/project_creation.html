@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Create your project{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/project_form.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="dashboard-shell">
+    <section class="form-panel">
+        <p class="dashboard-eyebrow">New project</p>
+        <h1 class="dashboard-title">Create your project</h1>
+        <p class="dashboard-subtitle">Give the project a clear name and a short description so the team knows what it is about.</p>
+
+        <form action="{% url "create_project_url" %}" method="POST" class="project-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="project-form-actions">
+                <a href="{% url "dashboard" %}" class="dashboard-ghost-link">Back to dashboard</a>
+                <button type="submit" class="dashboard-link-button dashboard-link-button-solid">Save project</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}

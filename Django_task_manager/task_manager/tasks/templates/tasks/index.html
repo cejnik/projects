@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/index.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="auth-shell">
+    <section class="auth-card">
+        <p class="auth-eyebrow">Task Manager</p>
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Sign in to continue to your dashboard.</p>
+
+        <form action="{% url "login_url" %}" method="POST" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="auth-button">Login</button>
+        </form>
+
+        <p class="auth-switch">
+            New here?
+            <a href="{% url "registration_url" %}">Create an account</a>
+        </p>
+    </section>
+</main>
+{% endblock content %}

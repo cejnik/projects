@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Add new member{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/project_form.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="dashboard-shell">
+    <section class="form-panel">
+        <p class="dashboard-eyebrow">Add new member</p>
+        <h1 class="dashboard-title">Update your team</h1>
+        <p class="dashboard-subtitle">Add new user to help you with project</p>
+
+        <form action="" method="POST" class="project-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="project-form-actions">
+                <a href="{% url "project_detail_url" project.pk %}" class="dashboard-ghost-link">Cancel without changes</a>
+                <button type="submit" class="dashboard-link-button dashboard-link-button-solid">Add member</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}

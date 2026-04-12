@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Create task{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/task_creation.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="dashboard-shell">
+    <section class="form-panel">
+        <p class="dashboard-eyebrow">New task</p>
+        <h1 class="dashboard-title">Create a task</h1>
+        <p class="dashboard-subtitle">Add a task to the current project, set its status and priority, and assign it if needed.</p>
+
+        <form action="" method="POST" class="task-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="task-form-actions">
+                <button type="submit" class="dashboard-link-button dashboard-link-button-solid">Save task</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}

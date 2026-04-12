@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/register.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="auth-shell">
+    <section class="auth-card">
+        <p class="auth-eyebrow">Task Manager</p>
+        <h1 class="auth-title">Create account</h1>
+        <p class="auth-subtitle">Set up your profile and start organizing team work.</p>
+
+        <form action="" method="POST" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="auth-button">Register</button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a href="{% url "login_url" %}">Back to login</a>
+        </p>
+    </section>
+</main>
+{% endblock content %}

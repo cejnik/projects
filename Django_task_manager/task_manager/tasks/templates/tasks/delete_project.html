@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Delete confirmation{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/delete_project.css" %}">
+{% endblock css_styles %}
+{% block content %}
+<main class="dashboard-shell">
+    <section class="confirm-panel">
+        <p class="confirm-eyebrow">Delete project</p>
+        <h1 class="dashboard-title">Are you sure you want to delete {{ project.name }}?</h1>
+        <p class="dashboard-subtitle">Deleting this project will also remove all related tasks. This action cannot be undone.</p>
+
+        <form action="" method="POST" class="confirm-actions">
+            {% csrf_token %}
+            <button type="submit" class="danger-link-button danger-link-button-solid">Delete project</button>
+            <a href="{% url "project_detail_url" project.pk %}" class="dashboard-ghost-link">Cancel</a>
+        </form>
+    </section>
+</main>
+{% endblock content %}

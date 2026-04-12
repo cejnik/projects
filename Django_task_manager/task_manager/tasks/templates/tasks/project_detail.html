@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Project Details{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/project_detail.css" %}">
+{% endblock css_styles %}
+{% block content %}
+<main class="dashboard-shell">
+    <section class="dashboard-panel">
+        <div class="dashboard-topbar">
+            <div>
+                <p class="dashboard-eyebrow">Project detail</p>
+                <h1 class="dashboard-title">{{ project.name }}</h1>
+                <p class="dashboard-subtitle">
+                    {% if project.description %}
+                        {{ project.description }}
+                    {% else %}
+                        This project does not have a description yet. You can add tasks here in the next step.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="dashboard-actions">
+                {% if is_owner %}
+                    <a href="{% url "add_project_member_url" project.pk %}" class="dashboard-link-button">Add new member</a>
+                {% endif %}              
+                <a href="{% url "project_edit_url" project.pk %}" class="dashboard-link-button">Edit project</a>
+                {% if is_owner %}
+                <a href="{% url "delete_project_url" project.pk %}" class="danger-link-button">Delete project</a>
+                {% endif %}
+                <a href="{% url "dashboard" %}" class="dashboard-ghost-link">Back to dashboard</a>
+            </div>
+        </div>
+
+        <section class="detail-grid">
+            <article class="detail-card">
+                <p class="project-card-label">Created by</p>
+                <h2 class="detail-card-value">{{ project.created_by }}</h2>
+            </article>
+
+            <article class="detail-card">
+                <p class="project-card-label">Created at</p>
+                <h2 class="detail-card-value">{{ project.created_at }}</h2>
+            </article>
+        </section>
+        <section class="detail-members">
+            <div class="members-section-header">
+                <div>
+                    <p class="project-card-label">Project team</p>
+                    <h2 class="project-card-title">Members</h2>
+                    <p class="project-card-description">People who can access and work on this project.</p>
+                </div>
+            </div>
+
+            <div class="member-list">
+                {% for membership in memberships %}
+                    <article class="member-card">
+                        <span class="member-name">{{ membership.user.username }}</span>
+                        <span class="member-role">{{ membership.get_role_display }}</span>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        <form action="" method="get" class="task-filter-form">
+            <div class="task-filter-fields">
+                <label>
+                    <span>Status</span>
+            <select name="status">
+                <option value="">All statuses</option>
+                {% for value, label in  status_choices %}
+                    <option value="{{value}}" {% if selected_status == value %}selected{% endif %}>
+                        {{label}}
+                    </option> 
+                {% endfor %}
+                    </select>
+                </label>
+
+                <label>
+                    <span>Priority</span>
+                    <select name="priority">
+                        <option value="">All priorities</option>
+                            {% for value, label in priority_choices %}
+                                <option value="{{ value }}" {% if selected_priority == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+                    </select>
+                </label>
+            </div>
+
+            <div class="task-filter-actions">
+                <button type="submit" class="dashboard-link-button dashboard-link-button-solid">Apply filters</button>
+                <a href="{% url "project_detail_url" project.pk %}" class="dashboard-ghost-link">Clear filters</a>
+            </div>
+        </form>
+
+
+        <section class="task-container">
+            <div class="task-section-header">
+                <div>
+                    <p class="project-card-label">Tasks</p>
+                    <h2 class="project-card-title">Project tasks</h2>
+                    <p class="project-card-description">This is the current task list for the selected project.</p>
+                </div>
+                <div>
+                    <a href="{% url "task_url" project.pk %}" class="dashboard-link-button">Add task</a>
+                </div>
+            </div>
+
+            <div class="task-list">
+            {% for one_task in tasks %}
+                <article class="task-card">
+                    <p class="project-card-label">Task</p>
+                    <h3 class="task-card-title">{{ one_task.title }}</h3>
+                    <p class="task-card-description">
+                        {% if one_task.description %}
+                            {{ one_task.description }}
+                        {% else %}
+                            No description has been added for this task yet.
+                        {% endif %}
+                    </p>
+                    <div class="task-card-footer">
+                        <div class="task-card-meta-row">
+                            <span class="task-pill">{{ one_task.get_status_display }}</span>
+                            <span class="task-pill">{{ one_task.get_priority_display }}</span>
+                            <span class="task-pill">{{ one_task.assigned_to }}</span>
+                        </div>
+                        <div class="task-card-actions">
+                            <a href="{% url "edit_task_url" one_task.pk %}" class="task-inline-link">Edit task</a>
+                            <a href="{% url "delete_task_url" one_task.pk %}" class="danger-inline-link">Delete task</a>
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <article class="empty-state-card">
+                    <p class="project-card-label">No tasks yet</p>
+                    <h3 class="task-card-title">This project is still empty</h3>
+                    <p class="project-card-description">The task list will appear here once you start creating tasks for this project.</p>
+                </article>
+            {% endfor %}
+            </div>
+        </section>
+    </section>
+</main>
+{% endblock content %}

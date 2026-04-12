@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit your project{% endblock title %}
+{% block css_styles %}
+    <link rel="stylesheet" href="{% static "tasks/project_form.css" %}">
+{% endblock css_styles %}
+
+{% block content %}
+<main class="dashboard-shell">
+    <section class="form-panel">
+        <p class="dashboard-eyebrow">Edit project</p>
+        <h1 class="dashboard-title">Update your project</h1>
+        <p class="dashboard-subtitle">Edit the project name and description so the project stays clear and up to date.</p>
+
+        <form action="" method="POST" class="project-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="project-form-actions">
+                <a href="{% url "project_detail_url" project.pk %}" class="dashboard-ghost-link">Cancel without changes</a>
+                <button type="submit" class="dashboard-link-button dashboard-link-button-solid">Save changes</button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock content %}
