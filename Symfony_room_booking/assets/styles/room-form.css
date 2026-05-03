@@ -1,0 +1,92 @@
+.form-page {
+    max-width: 820px;
+}
+
+.form-panel {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.form-panel form {
+    display: grid;
+    gap: 18px;
+}
+
+.form-panel form > div {
+    display: grid;
+    gap: 8px;
+}
+
+.form-panel label {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.form-panel ul {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid #f0b7b7;
+    border-radius: 8px;
+    background: #fff1f1;
+    color: #8f2323;
+    list-style: none;
+}
+
+.form-panel li {
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.form-panel input,
+.form-panel select,
+.form-panel textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text);
+    font: inherit;
+}
+
+.form-panel input:focus,
+.form-panel select:focus,
+.form-panel textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px rgba(22, 133, 95, 0.14);
+    outline: none;
+}
+
+.form-panel input[type="checkbox"] {
+    width: 20px;
+    min-height: 20px;
+    accent-color: var(--green);
+}
+
+.form-panel input[aria-invalid="true"],
+.form-panel select[aria-invalid="true"],
+.form-panel textarea[aria-invalid="true"] {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 4px rgba(217, 72, 72, 0.14);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 8px;
+}
+
+@media (max-width: 700px) {
+    .form-panel {
+        padding: 18px;
+    }
+
+    .form-actions {
+        justify-content: stretch;
+    }
+}

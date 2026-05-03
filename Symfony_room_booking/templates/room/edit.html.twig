@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit room{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/room-form.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="page-shell form-page">
+        <section class="page-header">
+            <div>
+                <p class="eyebrow">Room settings</p>
+                <h1>Edit room</h1>
+                <p class="page-intro">Keep room details ready for future reservations.</p>
+            </div>
+            <a class="button button-secondary" href="{{ path('index') }}">Back to rooms</a>
+        </section>
+
+        <section class="form-panel">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="form-actions">
+                    <button class="button button-primary" type="submit">Save changes</button>
+                </div>
+            {{ form_end(form) }}
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New reservation{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/room-form.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="page-shell form-page">
+        <section class="page-header">
+            <div>
+                <p class="eyebrow">New reservation</p>
+            </div>
+            <a class="button button-secondary" href="{{ path('index_reservation') }}">Back to reservations</a>
+        </section>
+
+        <section class="form-panel">
+            {{ form_start(form, {
+                attr: {
+                    novalidate: 'novalidate',
+                    'data-turbo': 'false'
+                }
+            }) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.visitorName) }}
+                {{ form_row(form.visitorEmail) }}
+                {{ form_row(form.room) }}
+                {{ form_row(form.startsAt) }}
+                {{ form_label(form.endsAt) }}
+                {{ form_widget(form.endsAt) }}
+                {{ form_errors(form.endsAt) }}
+                {{ form_row(form.note) }}
+
+                <div class="form-actions">
+                    <button class="button button-primary" type="submit">Save new reservation</button>
+                </div>
+            {{ form_end(form) }}
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/registration-form.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="page-shell auth-page">
+        <section class="auth-card">
+            <div class="auth-copy">
+                <p class="eyebrow">New account</p>
+                <h1>Register</h1>
+                <p class="page-intro">Create your account to book rooms, manage your reservations and keep your booking history together.</p>
+            </div>
+
+            <section class="auth-form-panel">
+                {{ form_start(registrationForm) }}
+                    {{ form_errors(registrationForm) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password'
+                    }) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
+
+                    <div class="auth-actions">
+                        <button type="submit" class="button button-primary">Create account</button>
+                        <a class="button button-secondary" href="{{ path('app_login') }}">Back to login</a>
+                    </div>
+                {{ form_end(registrationForm) }}
+            </section>
+        </section>
+    </main>
+{% endblock %}

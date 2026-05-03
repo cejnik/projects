@@ -1,0 +1,116 @@
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.room-card {
+    display: flex;
+    min-height: 230px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 22px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.room-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.room-card h2 {
+    margin: 0;
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+.room-card p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.room-capacity {
+    display: inline-flex;
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #fff4c2;
+    color: #6b5600;
+    font-weight: 700;
+}
+
+.status {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.status-active {
+    background: #dff7eb;
+    color: var(--green-dark);
+}
+
+.status-inactive {
+    background: #ffe1df;
+    color: var(--coral-dark);
+}
+
+.room-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.room-actions form {
+    margin: 0;
+}
+
+.empty-panel {
+    grid-column: 1 / -1;
+    padding: 34px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+    text-align: center;
+}
+
+.empty-panel h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.empty-panel p {
+    margin: 10px auto 20px;
+    max-width: 460px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+    .room-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .room-card-top,
+    .room-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .status,
+    .room-capacity {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}

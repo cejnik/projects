@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rooms{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/room-index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="page-shell">
+        <section class="page-header">
+            <div>
+                <p class="eyebrow">Meeting rooms</p>
+                <h1>Rooms</h1>
+                <p class="page-intro">Manage rooms before opening reservations.</p>
+            </div>
+                <div class="page-actions">
+                    <a class ="button button-secondary" href="{{ path('index_reservation') }}">Reserve your room</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                    <a class="button button-primary" href="{{ path('new_page') }}">Add new room</a>
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="room-grid">
+        {% for room in rooms %}
+                <article class="room-card">
+                    <div class="room-card-top">
+                        <div>
+                            <h2>{{ room.name }}</h2>
+                            <p>{{ room.location }}</p>
+                        </div>
+                    {% if room.isActive %}
+                            <span class="status status-active">Available</span>
+                    {% else %}
+                            <span class="status status-inactive">Inactive</span>
+                    {% endif %}
+                    </div>
+
+                    <p class="room-capacity">{{ room.capacity }} seats</p>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                    <div class="room-actions">
+                        <a class="button button-secondary" href="{{ path('edit_page', { id: room.id }) }}">Edit room</a>
+                        <form action="{{ path('delete_page', { id: room.id }) }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_room_' ~ room.id) }}">
+                            <button class="button button-danger" type="submit">Delete room</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </article>
+        {% else %}
+                <div class="empty-panel">
+                    <h2>No rooms yet</h2>
+                    <p>Create your first meeting room and start building the booking system.</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="button button-primary" href="{{ path('new_page') }}">Add new room</a>
+                    {% endif %}
+                </div>
+                    
+        {% endfor %}
+        </section>
+    </main>
+{% endblock %}

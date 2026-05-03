@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservations{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/reservation-index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="page-shell">
+        <section class="page-header">
+            <div>
+                <p class="eyebrow">Reservations</p>
+                <h1>Room reservations</h1>
+                <p class="page-intro">Track planned meetings and assigned rooms.</p>
+            </div>
+
+            <div class="page-actions">
+                <a class="button button-secondary" href="{{ path('index') }}">Back to rooms</a>
+                {% if app.user %}
+                    <a class="button button-secondary" href="{{ path('new_reservation') }}">New reservation</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="reservation-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Live schedule</p>
+                    <h2>Active reservations</h2>
+                </div>
+
+                <form class="reservation-filter" action="{{ path('index_reservation') }}" method="get">
+                    <label class="reservation-filter-label" for="room-filter">Room</label>
+                    <select class="reservation-filter-select" name="room" id="room-filter">
+                        <option value="" {% if not selectedRoomId %}selected{% endif %}>All rooms</option>
+                        {% for room in rooms %}
+                            <option value="{{ room.id }}" {% if selectedRoomId == room.id %}selected{% endif %}>
+                                {{ room.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <button class="button button-primary" type="submit">Filter</button>
+                    <a class="button button-secondary" href="{{ path('index_reservation') }}">Reset</a>
+                </form>
+            </div>
+
+            <div class="reservation-list">
+            {% for reservation in activeReservations %}
+                <article class="reservation-card">
+                    <div class="reservation-main">
+                        <div>
+                            <p class="reservation-label">Room</p>
+                            <h2>{{ reservation.room.name }}</h2>
+                        </div>
+                        <div class="reservation-controls">
+                            <div class="reservation-actions">
+                                {% if is_granted('ROLE_ADMIN') or (app.user and reservation.user == app.user) %}
+                                    <a class="button button-secondary" href="{{ path('edit_reservation', { id: reservation.id }) }}">Edit reservation</a>
+                                        <form action="{{ path('cancel_reservation', {id: reservation.id}) }}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('cancel_reservation_' ~ reservation.id)}}">
+                                                <button type="submit" class="button button-secondary">Cancel reservation</button>
+                                        </form>
+                                        <form action="{{ path('delete_reservation', { id: reservation.id }) }}" method="post">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete_reservation_' ~ reservation.id) }}">
+                                                <button type="submit" class="button button-danger">Delete reservation</button>
+                                        </form>
+                                {% endif %}
+                            </div>
+                            <span class="reservation-status">{{ reservation.status }}</span>
+                        </div>
+                    </div>
+
+                    <div class="reservation-details">
+                        <div>
+                            <p class="reservation-label">Visitor</p>
+                            <p>{{ reservation.visitorName }}</p>
+                            <a href="mailto:{{ reservation.visitorEmail }}">{{ reservation.visitorEmail }}</a>
+                        </div>
+
+                        <div>
+                            <p class="reservation-label">Starts</p>
+                            <p>{{ reservation.startsAt|date('Y-m-d H:i') }}</p>
+                        </div>
+
+                        <div>
+                            <p class="reservation-label">Ends</p>
+                            <p>{{ reservation.endsAt|date('Y-m-d H:i') }}</p>
+                        </div>
+                    </div>
+
+                    {% if reservation.note %}
+                        <div class="reservation-note">
+                            <p class="reservation-label">Note</p>
+                            <p>{{ reservation.note }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="reservation-owner">
+                        <p class="reservation-label">Owner</p>
+                        {% if reservation.user == null %}
+                            <p>No owner assigned.</p>
+                        {% else %}
+                            <p>{{ reservation.user.email }}</p>
+                        {% endif %}
+                    </div>
+                </article>
+            {% else %}
+                <div class="empty-panel">
+                    <h2>No active reservations</h2>
+                    <p>Create the next booking and it will appear here.</p>
+                    {% if app.user %}
+                        <a class="button button-primary" href="{{ path('new_reservation') }}">New reservation</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            </div>
+        </section>
+
+        <section class="reservation-section reservation-section-history">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">History</p>
+                    <h2>Cancelled reservations</h2>
+                </div>
+            </div>
+
+            <div class="reservation-list">
+            {% for reservation in cancelledReservations %}
+                <article class="reservation-card reservation-card-cancelled">
+                    <div class="reservation-main">
+                        <div>
+                            <p class="reservation-label">Room</p>
+                            <h2>{{ reservation.room.name }}</h2>
+                        </div>
+                        <div class="reservation-controls">
+                            <div class="reservation-actions">
+                                {% if is_granted('ROLE_ADMIN') or (app.user and reservation.user == app.user) %}
+                                    <form action="{{ path('delete_reservation', { id: reservation.id }) }}" method="post">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete_reservation_' ~ reservation.id) }}">
+                                        <button type="submit" class="button button-secondary">Delete reservation</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <span class="reservation-status reservation-status-cancelled">{{ reservation.status }}</span>
+                        </div>
+                    </div>
+
+                    <div class="reservation-details">
+                        <div>
+                            <p class="reservation-label">Visitor</p>
+                            <p>{{ reservation.visitorName }}</p>
+                            <a href="mailto:{{ reservation.visitorEmail }}">{{ reservation.visitorEmail }}</a>
+                        </div>
+
+                        <div>
+                            <p class="reservation-label">Starts</p>
+                            <p>{{ reservation.startsAt|date('Y-m-d H:i') }}</p>
+                        </div>
+
+                        <div>
+                            <p class="reservation-label">Ends</p>
+                            <p>{{ reservation.endsAt|date('Y-m-d H:i') }}</p>
+                        </div>
+
+                    </div>
+
+                    {% if reservation.note %}
+                        <div class="reservation-note">
+                            <p class="reservation-label">Note</p>
+                            <p>{{ reservation.note }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="reservation-owner">
+                        <p class="reservation-label">Owner</p>
+                        {% if reservation.user == null %}
+                            <p>No owner assigned.</p>
+                        {% else %}
+                            <p>{{ reservation.user.email }}</p>
+                        {% endif %}
+                    </div>
+                    
+                </article>
+            {% else %}
+                <div class="empty-panel empty-panel-history">
+                    <h2>No cancelled reservations yet</h2>
+                    <p>Cancelled bookings will stay here.</p>
+                </div>
+            {% endfor %}
+            </div>
+        </section>
+    </main>
+{% endblock %}
