@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/auth-register.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="register-page">
+        <section class="register-card">
+            <span class="register-kicker">New account</span>
+            <h1 class="register-title">Create your team profile</h1>
+            <p class="register-subtitle">
+                Register once and move straight into planning sessions, reviewing details and joining the training flow.
+            </p>
+
+            {{ form_errors(registrationForm) ? '<div class="register-errors">' ~ form_errors(registrationForm) ~ '</div>' }}
+
+            {{ form_start(registrationForm, {'attr': {'class': 'register-form'}}) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+
+                <button type="submit" class="register-submit">Create account</button>
+            {{ form_end(registrationForm) }}
+
+            <p class="register-footer">
+                Already registered? <a href="{{ path('app_login') }}">Sign in here</a>
+            </p>
+        </section>
+    </main>
+{% endblock %}

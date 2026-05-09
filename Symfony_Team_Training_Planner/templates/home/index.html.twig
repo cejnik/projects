@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Team Training Planner{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/home-index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="home-page">
+        <section class="home-shell">
+            <article class="home-hero">
+                <span class="home-kicker">Team Training Planner</span>
+                <h1 class="home-title">One place for every session your team needs.</h1>
+                <p class="home-copy">
+                    Plan trainings, keep the weekly rhythm visible and give every player one clean place
+                    to see what is coming next. No scattered notes, no lost timing, no messy schedule.
+                </p>
+
+                <div class="home-points">
+                    <div class="home-point">
+                        <strong>Clear schedule</strong>
+                        See upcoming sessions, timing and location without digging through messages.
+                    </div>
+                    <div class="home-point">
+                        <strong>Coach ownership</strong>
+                        Each session belongs to its coach, so updates stay controlled and predictable.
+                    </div>
+                    <div class="home-point">
+                        <strong>Room to grow</strong>
+                        Attendance, filters and tests can all expand on top of this base naturally.
+                    </div>
+                </div>
+            </article>
+
+            <aside class="home-panel">
+                <div>
+                    <h2 class="home-panel-title">Start in under a minute</h2>
+                    <p class="home-panel-copy">
+                        Sign in if you already have an account, or create one and jump straight into the training board.
+                    </p>
+                </div>
+
+                <div class="home-actions">
+                    <a class="home-action-primary" href="{{ path('app_login') }}">Sign in</a>
+                    <a class="home-action-secondary" href="{{ path('app_register') }}">Create account</a>
+                </div>
+            </aside>
+        </section>
+    </main>
+{% endblock %}

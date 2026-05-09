@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/auth-login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="auth-page">
+        <section class="auth-card">
+            <span class="auth-kicker">Welcome back</span>
+            <h1 class="auth-title">Sign in to your training board</h1>
+            <p class="auth-subtitle">
+                Get back to your sessions, updates and planning flow in one focused place.
+            </p>
+
+            {% if error %}
+                <div class="auth-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="auth-state">
+                    You are logged in as {{ app.user.userIdentifier }}.
+                    <a href="{{ logout_path() }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <form class="auth-form" method="post">
+                <div class="auth-field">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus>
+                </div>
+
+                <div class="auth-field">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                <div class="auth-remember">
+                    <input type="checkbox" name="_remember_me" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+
+                <button class="auth-submit" type="submit">Sign in</button>
+            </form>
+
+            <p class="auth-footer">
+                No account yet? <a href="{{ path('app_register') }}">Create one here</a>
+            </p>
+        </section>
+    </main>
+{% endblock %}

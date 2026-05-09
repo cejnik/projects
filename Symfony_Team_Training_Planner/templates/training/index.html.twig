@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trainings{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/training-index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="training-page">
+        <div class="training-topbar">
+            <div class="training-brand">Team Training Planner</div>
+            <a class="training-logout" href="{{ path('app_logout') }}">Logout</a>
+        </div>
+
+        <section class="training-hero">
+            <div>
+                <span class="training-kicker">Training Board</span>
+                <h1 class="training-title">Train smarter, not noisier.</h1>
+                <p class="training-subtitle">
+                    Keep sessions visible, structured and easy to scan. Coaches can publish the plan,
+                    players can instantly see where they need to be and when it starts.
+                </p>
+            </div>
+            {% if is_granted('ROLE_COACH') %}
+                <a class="training-action" href="{{ path('app_training_new') }}">Create new training</a>
+            {% endif %}
+        </section>
+        {% if trainingCards is not empty %}
+            <section class="training-grid">
+                {% for card in trainingCards %}
+                    <article class="training-card">
+                        <div class="training-card__meta">
+                            <span class="training-card__time">{{ card.training.scheduledAt|date('d.m.Y H:i') }}</span>
+                            <span>{{ card.training.coach.email }}</span>
+                        </div>
+                        <h2 class="training-card__title">{{ card.training.title }}</h2>
+                        <p class="training-card__description">{{ card.training.description ?: 'Training plan will be refined by the coach before the session starts.' }}</p>
+
+                        <div class="training-card__stats">
+                            <div class="training-stat">
+                                <span class="training-stat__label">Location</span>
+                                <span class="training-stat__value">{{ card.training.location }}</span>
+                            </div>
+                            <div class="training-stat">
+                                <span class="training-stat__label">Open spots:</span>
+                                {% if card.remainingSpots == 0 %}
+                                    <span class="training-stat__value">Full</span>
+                                {% else %}
+                                    <span class="training-stat__value">{{card.remainingSpots}}/{{card.training.capacity}}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="training-card__actions">
+                            <a class="training-card__link" href="{{ path('app_training_detail', {id: card.training.id}) }}">View session details</a>
+                            {% if is_granted('ROLE_USER') and app.user == card.training.coach %}
+                                <a class="training-card__link" href="{{ path('app_training_edit', {id: card.training.id}) }}">Edit session details</a>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </section>
+        {% else %}
+            <section class="training-empty">
+                <p>No trainings are scheduled yet. Create the first session and start shaping the week.</p>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

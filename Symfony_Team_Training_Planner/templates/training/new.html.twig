@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Training{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/training-new.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="training-form-page">
+        <a class="training-form-back" href="{{ path('app_training_index') }}">Back to trainings</a>
+
+        <section class="training-form-shell">
+            <span class="training-form-kicker">Coach setup</span>
+            <h1 class="training-form-title">Create a focused session</h1>
+            <p class="training-form-subtitle">
+                Build one clear training block for your team. Keep the essentials tight:
+                what it is, when it starts, where it happens and how many athletes can join.
+            </p>
+
+            {{ form_start(form) }}
+                <div class="training-form-grid">
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.scheduledAt) }}
+                    {{ form_row(form.location) }}
+                    {{ form_row(form.capacity) }}
+                </div>
+
+                <div class="training-form-actions">
+                    <button class="training-form-submit" type="submit">Save training</button>
+                </div>
+            {{ form_end(form) }}
+        </section>
+    </main>
+{% endblock %}
