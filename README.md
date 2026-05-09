@@ -6,6 +6,23 @@ The goal of these projects is to gradually improve in backend development, datab
 
 ## Projects
 
+### Symfony Team Training Planner
+
+A Symfony learning project focused on authentication, role-based access, training management, attendance, and capacity rules.
+
+Main topics:
+- authentication and protected routes
+- coach and participant roles
+- training CRUD
+- ownership checks for edit and delete
+- attendance join and leave flow
+- capacity validation
+- flash messages
+- basic functional controller testing
+
+Repository folder:
+- `Symfony_Team_Training_Planner`
+
 ### Symfony Room Booking
 
 A Symfony learning project focused on room booking, authentication, ownership, and basic REST API endpoints.
@@ -58,6 +75,7 @@ Repository folder:
 - PHP
 - Symfony
 - PostgreSQL
+- Doctrine
 - Twig
 - HTML
 - CSS
