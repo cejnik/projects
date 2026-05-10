@@ -13,4 +13,13 @@ final class ReservationControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
     }
+
+    public function testApiReservations(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/reservations');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
+    }
 }

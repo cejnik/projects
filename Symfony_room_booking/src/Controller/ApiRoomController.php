@@ -32,7 +32,7 @@ final class ApiRoomController extends AbstractController
     public function room_id(RoomRepository $roomRepository, int $id): JsonResponse
     {
         $room = $roomRepository->find($id);
-        $data = [];
+        //$data = [];
 
         if ($room === null) {
             $data = ['error' => 'Room is not found'];

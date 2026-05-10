@@ -106,11 +106,13 @@ final class ApiReservationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
+
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('Access denied.');
         }
         $json = $request->getContent();
         $data = json_decode($json, true);
+
         if (!is_array($data)) {
             return $this->json(['error' => 'Invalid JSON body.'], 400);
         }
@@ -139,12 +141,14 @@ final class ApiReservationController extends AbstractController
         if ($room === null) {
             return $this->json(['error' => 'Room not found.'], 404);
         }
+
         try {
             $startsAt = new \DateTimeImmutable($data['startsAt']);
             $endsAt = new \DateTimeImmutable($data['endsAt']);
         } catch (\Exception $e) {
             return $this->json(['error' => 'Invalid date format.'], 400);
         }
+
         if ($endsAt <= $startsAt) {
             return $this->json(['error' => 'End time must be later than start time.'], 400);
         }

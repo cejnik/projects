@@ -30,10 +30,6 @@ class ReservationRepository extends ServiceEntityRepository
             ->setParameter('endsAt', $endsAt)
             ->setParameter('status', 'confirmed'); // cancelled rezervace se do conflict checku už nepočítají
 
-
-
-
-
         if ($ignoreReservationId) {
             $qb->andWhere('r.id != :ignoreReservationId');
             $qb->setParameter('ignoreReservationId', $ignoreReservationId);
