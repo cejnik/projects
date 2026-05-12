@@ -79,8 +79,6 @@ final class RoomControllerTest extends WebTestCase
         $this->assertSame($roomId, $decodedData['id']);
     }
 
-
-
     public function testMissingRoomReturns404(): void
     {
         $client = static::createClient();
