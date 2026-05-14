@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
 class Training
@@ -17,18 +18,24 @@ class Training
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Title is required.')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'Training date is required.')]
+    #[Assert\GreaterThan('now', message: 'Training must be scheduled in the future.')]
     private ?\DateTimeImmutable $scheduledAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Location is required.')]
     private ?string $location = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'Capacity is required.')]
+    #[Assert\Positive(message: 'Capacity must be greated than 0.')]
     private ?int $capacity = null;
 
     #[ORM\Column]

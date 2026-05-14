@@ -56,9 +56,11 @@ final class TrainingController extends AbstractController
             $this->addFlash('success', 'Training created successfully!');
             return $this->redirectToRoute('app_training_index');
         }
-        return $this->render('training/new.html.twig', [
+        return $this->render('training/edit.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
+
+
     }
 
     #[Route('/trainings/{id}', name: 'app_training_detail')]
@@ -107,7 +109,8 @@ final class TrainingController extends AbstractController
         }
         return $this->render('training/edit.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
+
 
     }
 

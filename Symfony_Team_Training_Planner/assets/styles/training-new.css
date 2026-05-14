@@ -69,6 +69,24 @@
     gap: 0.45rem;
 }
 
+.training-form-grid .form-error-message,
+.training-form-grid ul {
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: #fca5a5;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.training-form-error {
+    margin-top: 0.35rem;
+    color: #fca5a5;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
 .training-form-grid label {
     color: #dce7f5;
     font-weight: 600;
@@ -83,6 +101,12 @@
     background: rgba(15, 23, 42, 0.72);
     color: white;
     font: inherit;
+}
+
+.training-form-grid .is-invalid,
+.training-form-grid input:invalid,
+.training-form-grid textarea:invalid {
+    border-color: rgba(248, 113, 113, 0.7);
 }
 
 .training-form-grid input:focus,

@@ -11,7 +11,7 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function onboarding(): Response
     {
-        $user = $this->getuser();
+        $user = $this->getUser();
         if ($user) {
             return $this->redirectToRoute('app_training_index');
         }

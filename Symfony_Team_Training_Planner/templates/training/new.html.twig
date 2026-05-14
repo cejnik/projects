@@ -19,11 +19,31 @@
                 what it is, when it starts, where it happens and how many athletes can join.
             </p>
 
-            {{ form_start(form) }}
+            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+            {{ form_errors(form) }}
+
                 <div class="training-form-grid">
                     {{ form_row(form.title) }}
                     {{ form_row(form.description) }}
-                    {{ form_row(form.scheduledAt) }}
+                    {# {{ form_row(form.scheduledAt) }} #}
+
+
+                    
+                <div class="form-row">
+                    {{ form_label(form.scheduledAt) }}
+                    {{ form_widget(form.scheduledAt) }}
+
+                    {% if form.scheduledAt.vars.errors|length > 0 %}
+                        <div class="training-form-error">
+                            {% for error in form.scheduledAt.vars.errors %}
+                                <div>{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+
+
                     {{ form_row(form.location) }}
                     {{ form_row(form.capacity) }}
                 </div>
