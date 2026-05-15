@@ -48,10 +48,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: TrainingAttendance::class, mappedBy: 'participant')]
     private Collection $trainingAttendances;
 
+    /**
+     * @var Collection<int, TrainingComment>
+     */
+    #[ORM\OneToMany(targetEntity: TrainingComment::class, mappedBy: 'author')]
+    private Collection $trainingComments;
+
     public function __construct()
     {
         $this->trainings = new ArrayCollection();
         $this->trainingAttendances = new ArrayCollection();
+        $this->trainingComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +182,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTrainingAttendance(TrainingAttendance $trainingAttendance): static
     {
         $this->trainingAttendances->removeElement($trainingAttendance);
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingComment>
+     */
+    public function getTrainingComments(): Collection
+    {
+        return $this->trainingComments;
+    }
+
+    public function addTrainingComment(TrainingComment $trainingComment): static
+    {
+        if (!$this->trainingComments->contains($trainingComment)) {
+            $this->trainingComments->add($trainingComment);
+            $trainingComment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainingComment(TrainingComment $trainingComment): static
+    {
+        $this->trainingComments->removeElement($trainingComment);
+
         return $this;
     }
 }

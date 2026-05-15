@@ -35,7 +35,7 @@ class Training
 
     #[ORM\Column]
     #[Assert\NotNull(message: 'Capacity is required.')]
-    #[Assert\Positive(message: 'Capacity must be greated than 0.')]
+    #[Assert\Positive(message: 'Capacity must be greater than 0.')]
     private ?int $capacity = null;
 
     #[ORM\Column]
@@ -54,9 +54,16 @@ class Training
     #[ORM\OneToMany(targetEntity: TrainingAttendance::class, mappedBy: 'training')]
     private Collection $attendances;
 
+    /**
+     * @var Collection<int, TrainingComment>
+     */
+    #[ORM\OneToMany(targetEntity: TrainingComment::class, mappedBy: 'training')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->attendances = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +188,30 @@ class Training
     public function removeAttendance(TrainingAttendance $attendance): static
     {
         $this->attendances->removeElement($attendance);
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingComment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(TrainingComment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTraining($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(TrainingComment $comment): static
+    {
+        $this->comments->removeElement($comment);
         return $this;
     }
 }
