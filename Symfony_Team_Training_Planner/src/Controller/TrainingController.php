@@ -43,6 +43,7 @@ final class TrainingController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_COACH');
+
         $training = new Training();
         $form = $this->createForm(TrainingType::class, $training);
         $form->handleRequest($request);
@@ -51,16 +52,24 @@ final class TrainingController extends AbstractController
             $training->setCoach($this->getUser());
             $training->setCreatedAt(new \DateTimeImmutable());
             $training->setUpdatedAt(new \DateTimeImmutable());
+
             $entityManager->persist($training);
             $entityManager->flush();
+
             $this->addFlash('success', 'Training created successfully!');
+
             return $this->redirectToRoute('app_training_index');
         }
-        return $this->render('training/edit.html.twig', [
+
+        if ($form->isSubmitted()) {
+            return $this->render('training/new.html.twig', [
+                'form' => $form->createView(),
+            ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
+        }
+
+        return $this->render('training/new.html.twig', [
             'form' => $form->createView(),
-        ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
-
-
+        ]);
     }
 
     #[Route('/trainings/{id}', name: 'app_training_detail')]
@@ -91,27 +100,38 @@ final class TrainingController extends AbstractController
     public function edit(TrainingRepository $trainingRepository, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_COACH');
+
         $training = $trainingRepository->find($id);
         if ($training === null) {
             throw $this->createNotFoundException('Training not found');
         }
+
         $user = $this->getUser();
         if ($user !== $training->getCoach()) {
             throw $this->createAccessDeniedException('Access denied.');
         }
+
         $form = $this->createForm(TrainingType::class, $training);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $training->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
+
             $this->addFlash('success', 'Training updated successfully!');
+
             return $this->redirectToRoute('app_training_index');
         }
+
+        if ($form->isSubmitted()) {
+            return $this->render('training/edit.html.twig', [
+                'form' => $form->createView(),
+            ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
+        }
+
         return $this->render('training/edit.html.twig', [
             'form' => $form->createView(),
-        ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
-
-
+        ]);
     }
 
     #[Route('/trainings/{id}/delete', name: 'app_training_delete', methods: ['POST'])]
