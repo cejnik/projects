@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Trainings{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/my-trainings.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="my-trainings-page">
+        <div class="my-trainings-topbar">
+            <div class="my-trainings-brand">Team Training Planner</div>
+            <div class="my-trainings-topbar__actions">
+                <a class="my-trainings-topbar__link my-trainings-topbar__link--back" href="{{ path('app_training_index') }}">Back to main page</a>
+                <a class="my-trainings-topbar__link my-trainings-topbar__link--logout" href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        </div>
+
+        <section class="my-trainings-hero">
+            <div>
+                <span class="my-trainings-kicker">My Trainings</span>
+                <h1 class="my-trainings-title">Sessions you already joined.</h1>
+                <p class="my-trainings-subtitle">
+                    Keep track of the trainings you are already part of and jump back into the session detail whenever you need it.
+                </p>
+            </div>
+        </section>
+        {% if trainingCards is not empty %}
+            <section class="my-trainings-list">
+                {% for card in trainingCards %}
+                    <article class="my-trainings-item">
+                        <div class="my-trainings-item__header">
+                            <div>
+                                <span class="my-trainings-item__time">{{ card.training.scheduledAt|date('d.m.Y H:i') }}</span>
+                                <h2 class="my-trainings-item__title">{{ card.training.title }}</h2>
+                            </div>
+                            <span>{{ card.training.coach.email }}</span>
+                        </div>
+                        <p class="my-trainings-item__description">{{ card.training.description ?: 'Training plan will be refined by the coach before the session starts.' }}</p>
+
+                        <div class="my-trainings-item__stats">
+                            <div class="my-trainings-stat">
+                                <span class="my-trainings-stat__label">Location</span>
+                                <span class="my-trainings-stat__value">{{ card.training.location }}</span>
+                            </div>
+                            <div class="my-trainings-stat">
+                                <span class="my-trainings-stat__label">Open spots</span>
+                                {% if card.remainingSpots == 0 %}
+                                    <span class="my-trainings-stat__value">Full</span>
+                                {% else %}
+                                    <span class="my-trainings-stat__value">{{ card.remainingSpots }}/{{ card.training.capacity }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="my-trainings-stat">
+                                <span class="my-trainings-stat__label">Participants</span>
+                                <span class="my-trainings-stat__value">{{ card.attendanceCount }}</span>
+                            </div>
+                        </div>
+                        <div class="my-trainings-item__actions">
+                            <a class="my-trainings-item__link" href="{{ path('app_training_detail', {id: card.training.id}) }}">View session details</a>
+                            {% if is_granted('ROLE_USER') and app.user == card.training.coach %}
+                                <a class="my-trainings-item__link my-trainings-item__link--secondary" href="{{ path('app_training_edit', {id: card.training.id}) }}">Edit session details</a>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </section>
+        {% else %}
+            <section class="my-trainings-empty">
+                <p>You have not joined any trainings yet.</p>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

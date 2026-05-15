@@ -1,0 +1,254 @@
+:root {
+    --my-panel: rgba(15, 23, 42, 0.84);
+    --my-border: rgba(148, 163, 184, 0.22);
+    --my-accent: #38bdf8;
+    --my-accent-dark: #0f766e;
+    --my-text: #e5eef8;
+    --my-muted: #9fb0c7;
+}
+
+.my-trainings-page {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 4rem;
+}
+
+.my-trainings-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.my-trainings-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: #dfe9f6;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.my-trainings-brand::before {
+    content: "";
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #67e8f9, #06b6d4);
+    box-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+}
+
+.my-trainings-topbar__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.my-trainings-topbar__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.1rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.my-trainings-topbar__link--back {
+    border: 1px solid rgba(56, 189, 248, 0.26);
+    background: rgba(8, 47, 73, 0.42);
+    color: #bae6fd;
+}
+
+.my-trainings-topbar__link--back:hover {
+    transform: translateY(-1px);
+    background: rgba(14, 116, 144, 0.34);
+    color: #e0f2fe;
+}
+
+.my-trainings-topbar__link--logout {
+    border: 1px solid rgba(248, 113, 113, 0.22);
+    background: rgba(127, 29, 29, 0.28);
+    color: #fecaca;
+}
+
+.my-trainings-topbar__link--logout:hover {
+    transform: translateY(-1px);
+    background: rgba(153, 27, 27, 0.4);
+    color: #ffe2e2;
+}
+
+.my-trainings-hero {
+    margin-bottom: 2.4rem;
+}
+
+.my-trainings-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--my-muted);
+    font-size: 0.82rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.my-trainings-title {
+    margin: 1rem 0 0.75rem;
+    color: white;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+}
+
+.my-trainings-subtitle {
+    max-width: 680px;
+    margin: 0;
+    color: var(--my-muted);
+    font-size: 1.03rem;
+    line-height: 1.7;
+}
+
+.my-trainings-list {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.my-trainings-item {
+    padding: 1.45rem 1.55rem;
+    border: 1px solid var(--my-border);
+    border-radius: 1.4rem;
+    background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+        var(--my-panel);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 44px rgba(2, 6, 23, 0.24);
+}
+
+.my-trainings-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--my-muted);
+    font-size: 0.92rem;
+}
+
+.my-trainings-item__time {
+    display: inline-block;
+    margin-bottom: 0.55rem;
+    color: #bae6fd;
+    font-weight: 700;
+}
+
+.my-trainings-item__title {
+    margin: 0;
+    color: white;
+    font-size: 1.45rem;
+}
+
+.my-trainings-item__description {
+    margin: 0 0 1.15rem;
+    color: var(--my-muted);
+    line-height: 1.7;
+}
+
+.my-trainings-item__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.my-trainings-stat {
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 1rem;
+    background: rgba(15, 23, 42, 0.46);
+}
+
+.my-trainings-stat__label {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--my-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.my-trainings-stat__value {
+    color: var(--my-text);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.my-trainings-item__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.my-trainings-item__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #7dd3fc;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.my-trainings-item__link:hover {
+    color: #d8f3ff;
+}
+
+.my-trainings-item__link--secondary {
+    color: #cbd5e1;
+}
+
+.my-trainings-item__link--secondary:hover {
+    color: white;
+}
+
+.my-trainings-empty {
+    padding: 2rem;
+    border: 1px dashed rgba(148, 163, 184, 0.3);
+    border-radius: 1.4rem;
+    background: rgba(15, 23, 42, 0.45);
+    color: var(--my-muted);
+    text-align: center;
+}
+
+@media (max-width: 820px) {
+    .my-trainings-item__stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .my-trainings-topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .my-trainings-topbar__actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .my-trainings-topbar__link {
+        width: 100%;
+    }
+
+    .my-trainings-item__header,
+    .my-trainings-item__actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

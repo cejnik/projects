@@ -226,5 +226,29 @@ final class TrainingController extends AbstractController
         return $this->redirectToRoute('app_training_detail', ['id' => $training->getId()]);
     }
 
+    #[Route('/my-trainings', name: 'app_my_trainings')]
+    public function myTrainings(TrainingAttendanceRepository $trainingAttendanceRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $attendances = $trainingAttendanceRepository->findBy(['participant' => $user]);
+
+        $trainingCards = [];
+        foreach ($attendances as $attendance) {
+            $training = $attendance->getTraining();
+            $attendanceCount = $training->getAttendances()->count();
+            $remainingSpots = $training->getCapacity() - $attendanceCount;
+
+            $trainingCards[] = [
+                'training' => $training,
+                'attendanceCount' => $attendanceCount,
+                'remainingSpots' => $remainingSpots,
+            ];
+        }
+
+        return $this->render('training/my_trainings.html.twig', [
+            'trainingCards' => $trainingCards,
+        ]);
+    }
 
 }

@@ -11,7 +11,10 @@
     <main class="training-page">
         <div class="training-topbar">
             <div class="training-brand">Team Training Planner</div>
-            <a class="training-logout" href="{{ path('app_logout') }}">Logout</a>
+            <div class="training-topbar__actions">
+                <a class="training-topbar__link training-topbar__link--my" href="{{ path('app_my_trainings') }}">My trainings</a>
+                <a class="training-topbar__link training-topbar__link--logout" href="{{ path('app_logout') }}">Logout</a>
+            </div>
         </div>
 
         <section class="training-hero">

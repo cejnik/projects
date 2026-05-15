@@ -9,7 +9,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\Training;
 use App\Entity\TrainingAttendance;
 use App\Repository\TrainingAttendanceRepository;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+
+// use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class TrainingControllerTest extends WebTestCase
 {
