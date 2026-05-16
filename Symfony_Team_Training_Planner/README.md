@@ -1,8 +1,8 @@
 # TeamTrainingPlanner
 
-This is a Symfony learning project focused on authentication, role-based access, training management, attendance, and capacity rules.
+This is a Symfony learning project focused on authentication, role-based access, training management, attendance, comments, and capacity rules.
 
-The application allows coaches to create and manage training sessions, while regular users can join and leave sessions with capacity protection and attendance validation.
+The application allows coaches to create and manage training sessions, while regular users can join and leave sessions, browse their joined trainings, and discuss training details in a simple comment section.
 
 ## Main Features
 
@@ -13,10 +13,13 @@ The application allows coaches to create and manage training sessions, while reg
 - Training create, edit, and delete
 - Ownership-based access for edit and delete
 - Join and leave training flow
+- My trainings page for joined sessions
+- Flat comment discussion under training detail
+- Comment count shortcut from training cards to discussion
 - Attendance unique constraint for one user per training
 - Capacity validation for full trainings
 - Flash messages for important actions
-- Basic functional controller tests for access rules
+- Functional controller tests for access, join, and leave flow
 
 ## Technologies
 
@@ -39,7 +42,8 @@ The application allows coaches to create and manage training sessions, while reg
 - Authentication and authorization
 - Role-based and ownership-based access control
 - Attendance and capacity business logic
-- First functional controller tests with PHPUnit
+- Building a simple comment feature with Doctrine relations
+- Functional controller tests with PHPUnit
 
 ## Setup
 
@@ -70,6 +74,6 @@ symfony serve
 
 ## Note
 
-This project is a learning exercise focused on Symfony backend fundamentals such as authentication, ownership, roles, Doctrine relations, attendance flow, and capacity checks.
+This project is a learning exercise focused on Symfony backend fundamentals such as authentication, ownership, roles, Doctrine relations, attendance flow, comment flow, and capacity checks.
 
-Basic functional access tests are included. More advanced join and leave controller tests were started, but the full auth and CSRF test setup was left outside the current project scope.
+Functional controller tests are included for access rules, join flow, and leave flow. Some deeper edge-case scenarios around CSRF and hidden UI states were intentionally left outside the current project scope.

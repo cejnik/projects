@@ -55,10 +55,24 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="training-card__actions">
-                            <a class="training-card__link" href="{{ path('app_training_detail', {id: card.training.id}) }}">View session details</a>
+                        <div class="training-card__actions{% if is_granted('ROLE_USER') and app.user == card.training.coach %} training-card__actions--coach{% endif %}">
+                            <div class="training-card__actions-main">
+                                <a class="training-card__link" href="{{ path('app_training_detail', {id: card.training.id}) }}">View session details</a>
+                                {% if not (is_granted('ROLE_USER') and app.user == card.training.coach) %}
+                                    <a class="training-card__comments" href="{{ path('app_training_detail', {id: card.training.id}) }}#comments" aria-label="View comments">
+                                        <span class="training-card__comments-icon" aria-hidden="true">◔</span>
+                                        <span class="training-card__comments-count">{{ card.commentCount }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
                             {% if is_granted('ROLE_USER') and app.user == card.training.coach %}
-                                <a class="training-card__link" href="{{ path('app_training_edit', {id: card.training.id}) }}">Edit session details</a>
+                                <div class="training-card__actions-secondary">
+                                    <a class="training-card__link" href="{{ path('app_training_edit', {id: card.training.id}) }}">Edit session details</a>
+                                    <a class="training-card__comments" href="{{ path('app_training_detail', {id: card.training.id}) }}#comments" aria-label="View comments">
+                                        <span class="training-card__comments-icon" aria-hidden="true">◔</span>
+                                        <span class="training-card__comments-count">{{ card.commentCount }}</span>
+                                    </a>
+                                </div>
                             {% endif %}
                         </div>
                     </article>

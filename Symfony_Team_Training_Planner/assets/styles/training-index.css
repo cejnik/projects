@@ -232,6 +232,26 @@
     gap: 1rem;
 }
 
+.training-card__actions-main {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.training-card__actions-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+}
+
+.training-card__actions--coach {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .training-card__edit {
     color: #cbd5e1;
     font-weight: 700;
@@ -240,6 +260,34 @@
 
 .training-card__edit:hover {
     color: white;
+}
+
+.training-card__comments {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 999px;
+    background: rgba(8, 47, 73, 0.34);
+    color: #bae6fd;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: auto;
+}
+
+.training-card__comments:hover {
+    background: rgba(14, 116, 144, 0.28);
+    color: #e0f2fe;
+}
+
+.training-card__comments-icon {
+    font-size: 0.82rem;
+    line-height: 1;
+}
+
+.training-card__comments-count {
+    min-width: 1ch;
 }
 
 .training-empty {

@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\TrainingComment;
+use App\Form\TrainingCommentType;
 
 final class TrainingController extends AbstractController
 {
@@ -31,6 +33,7 @@ final class TrainingController extends AbstractController
                 'training' => $training,
                 'attendanceCount' => $attendanceCount,
                 'remainingSpots' => $remainingSpots,
+                'commentCount' => $training->getComments()->count(),
             ];
         }
 
@@ -82,6 +85,10 @@ final class TrainingController extends AbstractController
             throw $this->createNotFoundException('Training not found');
         }
 
+        //Comments
+        $comment = new TrainingComment();
+        $commentForm = $this->createForm(TrainingCommentType::class, $comment);
+
         $attendance = $trainingAttendanceRepository->findOneBy(['participant' => $this->getUser(), 'training' => $training]);
         $isJoined = $attendance !== null;
 
@@ -93,6 +100,7 @@ final class TrainingController extends AbstractController
             'isJoined' => $isJoined,
             'attendanceCount' => $attendanceCount,
             'remainingSpots' => $remainingSpots,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
@@ -243,6 +251,7 @@ final class TrainingController extends AbstractController
                 'training' => $training,
                 'attendanceCount' => $attendanceCount,
                 'remainingSpots' => $remainingSpots,
+                'commentCount' => $training->getComments()->count(),
             ];
         }
 
@@ -250,5 +259,49 @@ final class TrainingController extends AbstractController
             'trainingCards' => $trainingCards,
         ]);
     }
+
+    #[Route('/trainings/{id}/comments', name: 'app_training_comment_add', methods: ['POST'])]
+    public function addComment(int $id, Request $request, TrainingRepository $trainingRepository, EntityManagerInterface $entityManagerInterface, TrainingAttendanceRepository $trainingAttendanceRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $training = $trainingRepository->find($id);
+
+        if ($training === null) {
+            throw $this->createNotFoundException('Training not found.');
+        }
+
+        $comment = new TrainingComment();
+        $form = $this->createForm(TrainingCommentType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setAuthor($this->getUser());
+            $comment->setTraining($training);
+            $comment->setCreatedAt(new \DateTimeImmutable());
+
+            $entityManagerInterface->persist($comment);
+            $entityManagerInterface->flush();
+            $this->addFlash('success', 'Comment added successfully.');
+            $url = $this->generateUrl('app_training_detail', ['id' => $training->getId()]). '#comments';
+            return $this->redirect($url);
+        }
+
+        $attendance = $trainingAttendanceRepository->findOneBy([
+            'participant' => $this->getUser(),
+            'training' => $training,
+        ]);
+        $isJoined = $attendance !== null;
+        $attendanceCount = $training->getAttendances()->count();
+        $remainingSpots = $training->getCapacity() - $attendanceCount;
+
+        return $this->render('training/training_detail.html.twig', [
+            'training' => $training,
+            'isJoined' => $isJoined,
+            'attendanceCount' => $attendanceCount,
+            'remainingSpots' => $remainingSpots,
+            'commentForm' => $form->createView(),
+        ], new Response(status: Response::HTTP_UNPROCESSABLE_ENTITY));
+    }
+
 
 }

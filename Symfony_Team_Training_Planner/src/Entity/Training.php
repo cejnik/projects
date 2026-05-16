@@ -58,6 +58,7 @@ class Training
      * @var Collection<int, TrainingComment>
      */
     #[ORM\OneToMany(targetEntity: TrainingComment::class, mappedBy: 'training')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $comments;
 
     public function __construct()

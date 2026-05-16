@@ -163,6 +163,162 @@
     font-weight: 700;
 }
 
+.training-comments {
+    margin-top: 1.6rem;
+    padding: 1.8rem 2rem 2rem;
+    border: 1px solid var(--detail-border);
+    border-radius: 2rem;
+    background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        var(--detail-shell);
+    box-shadow: 0 30px 58px rgba(2, 6, 23, 0.22);
+}
+
+.training-comments__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.training-comments__kicker {
+    display: inline-flex;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(249, 115, 22, 0.12);
+    color: #f8c18d;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.training-comments__title {
+    margin: 1rem 0 0;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.training-comments__count {
+    color: var(--detail-muted);
+    font-weight: 700;
+}
+
+.training-comments__composer {
+    margin-bottom: 1.4rem;
+}
+
+.training-comments__form .form-row {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.training-comments__form label {
+    color: #dce7f5;
+    font-weight: 700;
+}
+
+.training-comments__form textarea,
+.training-comments__form input {
+    width: 100%;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 1rem;
+    background: rgba(15, 23, 42, 0.72);
+    color: white;
+    font: inherit;
+}
+
+.training-comments__form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.training-comments__form textarea:focus,
+.training-comments__form input:focus {
+    outline: 2px solid rgba(249, 115, 22, 0.28);
+    border-color: rgba(249, 115, 22, 0.48);
+}
+
+.training-comments__form .form-error-message,
+.training-comments__form ul {
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: #fca5a5;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.training-comments__form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.training-comments__submit {
+    padding: 0.95rem 1.35rem;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #fb923c, #ea580c);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 16px 30px rgba(234, 88, 12, 0.26);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.training-comments__submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 34px rgba(234, 88, 12, 0.34);
+    filter: brightness(1.04);
+}
+
+.training-comments__list {
+    display: grid;
+    gap: 1rem;
+}
+
+.training-comment {
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 1.2rem;
+    background: rgba(15, 23, 42, 0.52);
+}
+
+.training-comment__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.7rem;
+}
+
+.training-comment__author {
+    color: white;
+}
+
+.training-comment__time {
+    color: var(--detail-muted);
+    font-size: 0.9rem;
+}
+
+.training-comment__content {
+    margin: 0;
+    color: var(--detail-text);
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.training-comments__empty {
+    padding: 1.4rem;
+    border: 1px dashed rgba(148, 163, 184, 0.22);
+    border-radius: 1.2rem;
+    color: var(--detail-muted);
+    text-align: center;
+}
+
 @media (max-width: 640px) {
     .training-detail-row {
         flex-direction: column;
@@ -178,7 +334,21 @@
 
     .training-detail-delete,
     .training-detail-join,
-    .training-detail-leave {
+    .training-detail-leave,
+    .training-comments__submit {
         width: 100%;
+    }
+
+    .training-comments {
+        padding: 1.4rem;
+    }
+
+    .training-comments__header,
+    .training-comment__meta {
+        flex-direction: column;
+    }
+
+    .training-comments__form-actions {
+        justify-content: stretch;
     }
 }

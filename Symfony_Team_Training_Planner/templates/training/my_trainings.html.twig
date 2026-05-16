@@ -57,10 +57,24 @@
                                 <span class="my-trainings-stat__value">{{ card.attendanceCount }}</span>
                             </div>
                         </div>
-                        <div class="my-trainings-item__actions">
-                            <a class="my-trainings-item__link" href="{{ path('app_training_detail', {id: card.training.id}) }}">View session details</a>
+                        <div class="my-trainings-item__actions{% if is_granted('ROLE_USER') and app.user == card.training.coach %} my-trainings-item__actions--coach{% endif %}">
+                            <div class="my-trainings-item__actions-main">
+                                <a class="my-trainings-item__link" href="{{ path('app_training_detail', {id: card.training.id}) }}">View session details</a>
+                                {% if not (is_granted('ROLE_USER') and app.user == card.training.coach) %}
+                                    <a class="my-trainings-item__comments" href="{{ path('app_training_detail', {id: card.training.id}) }}#comments" aria-label="View comments">
+                                        <span class="my-trainings-item__comments-icon" aria-hidden="true">◔</span>
+                                        <span class="my-trainings-item__comments-count">{{ card.commentCount }}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
                             {% if is_granted('ROLE_USER') and app.user == card.training.coach %}
-                                <a class="my-trainings-item__link my-trainings-item__link--secondary" href="{{ path('app_training_edit', {id: card.training.id}) }}">Edit session details</a>
+                                <div class="my-trainings-item__actions-secondary">
+                                    <a class="my-trainings-item__link my-trainings-item__link--secondary" href="{{ path('app_training_edit', {id: card.training.id}) }}">Edit session details</a>
+                                    <a class="my-trainings-item__comments" href="{{ path('app_training_detail', {id: card.training.id}) }}#comments" aria-label="View comments">
+                                        <span class="my-trainings-item__comments-icon" aria-hidden="true">◔</span>
+                                        <span class="my-trainings-item__comments-count">{{ card.commentCount }}</span>
+                                    </a>
+                                </div>
                             {% endif %}
                         </div>
                     </article>

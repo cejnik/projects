@@ -75,5 +75,46 @@
                 </div>
             </section>
         </article>
+
+        <section id="comments" class="training-comments">
+            <div class="training-comments__header">
+                <div>
+                    <span class="training-comments__kicker">Discussion</span>
+                    <h2 class="training-comments__title">Comments</h2>
+                </div>
+                <span class="training-comments__count">{{ training.comments|length }} total</span>
+            </div>
+
+            <div class="training-comments__composer">
+                {{ form_start(commentForm, {
+                    action: path('app_training_comment_add', { id: training.id })
+                }) }}
+                    <div class="training-comments__form">
+                        {{ form_row(commentForm.content) }}
+                        <div class="training-comments__form-actions">
+                            <button class="training-comments__submit" type="submit">Add comment</button>
+                        </div>
+                    </div>
+                {{ form_end(commentForm) }}
+            </div>
+
+            {% if training.comments is not empty %}
+                <div class="training-comments__list">
+                    {% for comment in training.comments %}
+                        <article class="training-comment">
+                            <div class="training-comment__meta">
+                                <strong class="training-comment__author">{{ comment.author.email }}</strong>
+                                <span class="training-comment__time">{{ comment.createdAt|date('d.m.Y H:i') }}</span>
+                            </div>
+                            <p class="training-comment__content">{{ comment.content }}</p>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="training-comments__empty">
+                    <p>No comments yet. Start the conversation.</p>
+                </div>
+            {% endif %}
+        </section>
     </main>
 {% endblock %}
